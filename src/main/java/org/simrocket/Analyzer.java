@@ -1,4 +1,4 @@
-package org.simrock;
+package org.simrocket;
 
 import java.util.Vector;
 

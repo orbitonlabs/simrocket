@@ -1,4 +1,4 @@
-package org.simrock;
+package org.simrocket;
 
 import java.io.BufferedWriter;
 import java.io.File;
