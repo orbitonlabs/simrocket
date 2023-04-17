@@ -9,14 +9,14 @@ public class Rocket {
 
     public double gravity = 9.8;
 
-    public double radius = 0.0355;
+    public double radius = 0.0365;
     // public double radius = 0.031;
 
     public double first_stage_height;
 
     public double water_column;
 
-    public double A1 = Math.PI * (0.0185 * 0.0185);
+    public double A1 = Math.PI * (0.015875 * 0.015875);
     // public double A1 = Math.PI * (0.011 * 0.011);
 
     public double A2 =  Math.PI * (radius * radius);
@@ -43,23 +43,29 @@ public class Rocket {
 
     double water_mass;
 
+    double packing_factor;
+
+    double damping_factor;
+
     double drag = 0.5 * 1.293 * 0.5 * Math.PI * radius * radius;
 
     double parachute_drag = - 0.5 * 1.293 * 0.5 * Math.PI * 1 * 1;
 
-    public Rocket(String n, double density, double pressure, double mass, double height, double packing) {
+    public Rocket(String n, double density, double pressure, double shell_mass, double height, double packing, double damping) {
         name = n;
-        rocket_mass = mass;
         first_stage_height = height;
-        water_column = packing * first_stage_height * Math.PI * radius * radius;
+        packing_factor = packing;
+        damping_factor = damping;
+        water_column = packing_factor * first_stage_height * Math.PI * radius * radius;
         p_chamber = pressure * Math.pow(10, 5);
-        water_column_height = packing * ( water_column / dA ) * (1 - Math.pow((p_in /p_chamber), invgamma_const));
+        water_column_height = ( water_column / dA ) * (1 - Math.pow((p_in /p_chamber), invgamma_const));
         rho = density;
         rhogh = rho * gravity * water_column_height;
-        u = Math.sqrt((2 * (p_chamber + rhogh - p_in))/(rho * (1 - A1/A2)));
+        u = damping_factor * Math.sqrt((2 * (p_chamber + rhogh - p_in))/(rho * (1 - A1/A2)));
         dm_dt = rho * A1 * u;
-        inst_mass = rocket_mass;
         water_mass = rho * water_column * ( 1 - Math.pow((p_in / p_chamber), invgamma_const) );
+        rocket_mass = water_mass + shell_mass;
+        inst_mass = rocket_mass;
     }
 
     public double height = 0.0d;
@@ -72,7 +78,7 @@ public class Rocket {
 
     public double update2(double t, double dt) {
         prev_height = height;
-        double dv = ( (dm_dt * u - rocket_mass * gravity + dm_dt * gravity * t - drag * inst_velocity * inst_velocity) / (rocket_mass - dm_dt * t) ) * dt;
+        double dv = ( (dm_dt * u - rocket_mass * gravity + dm_dt * gravity * t - 0 * drag * inst_velocity) / (rocket_mass - dm_dt * t) ) * dt;
         inst_velocity += dv;
         inst_mass -= dm_dt * dt;
         height += inst_velocity * dt;
@@ -96,7 +102,7 @@ public class Rocket {
     }
 
     public String config() {
-        return p_chamber+","+rocket_mass+","+water_mass+","+first_stage_height+","+water_column_height;
+        return name+","+packing_factor+","+first_stage_height+","+water_column_height+","+water_column+","+water_mass+","+p_chamber+","+rho+","+dm_dt+","+u+","+damping_factor;
     }
 
 }

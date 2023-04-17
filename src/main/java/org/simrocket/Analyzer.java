@@ -54,7 +54,7 @@ public class Analyzer {
     }
 
     public String reportString() {
-        return rocket_name+","+max_velocity+","+max_height+","+time_of_flight+","+initiation_acceleration+","+propulsion_period+","+terminal_velocity;
+        return max_velocity+","+max_height+","+time_of_flight+","+initiation_acceleration+","+propulsion_period+","+terminal_velocity;
     }
 
 }
