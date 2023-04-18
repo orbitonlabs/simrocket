@@ -1,0 +1,12 @@
+rocket_name: test2
+rocket_chamber_radius: 0.0375
+rocket_nozzle_radius: 0.0185
+rocket_propellant_density: 1250
+rocket_chamber_pressure: 7.5
+rocket_shell_mass: 0.75
+rocket_first_stage_height: 1.25
+rocket_first_stage_packing: 0.75
+rocket_damping_coefficient: 0.95
+rocket_parachute_time_delay: 2
+rocket_parachute_radius: 1
+resolution: 80000

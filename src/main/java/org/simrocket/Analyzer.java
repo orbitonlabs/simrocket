@@ -20,6 +20,8 @@ public class Analyzer {
 
     public String rocket_name;
 
+    public double terminal_mass;
+
     public void analyze(double time, double dRocket, Rocket inst_rocket) {
         if(inst_rocket.inst_velocity >= max_velocity) {
             max_velocity = inst_rocket.inst_velocity;
@@ -35,8 +37,9 @@ public class Analyzer {
             time_of_flight = time;
         }
 
-        if(inst_rocket.height <= 10 && terminal_velocity == 0.0d && time >= 0.5d) {
+        if(inst_rocket.height <= 10 && terminal_velocity == 0.0d && terminal_mass == 0.0d && time >= 0.5d) {
             terminal_velocity = inst_rocket.inst_velocity;
+            terminal_mass = inst_rocket.inst_mass;
         }
     }
 
@@ -50,6 +53,7 @@ public class Analyzer {
         report.addElement("Initial Acceleration: "+initiation_acceleration+" m/s2");
         report.addElement("Propulsion Duration: "+propulsion_period+" s");
         report.addElement("Terminal Velocity: "+terminal_velocity+" m/s");
+        report.addElement("Terminal Mass: "+terminal_mass+" kg");
         return report;
     }
 

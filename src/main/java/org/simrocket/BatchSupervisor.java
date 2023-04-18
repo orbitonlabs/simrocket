@@ -17,10 +17,11 @@ public class BatchSupervisor {
     // 5 - normal
     // 7 - slow, high-res
     // 10 - slower, very high-res
-    public static final double default_resolution = 10 * 80000;
+    public static double default_resolution = 10 * 80000;
 
-    public static String prefix = "./simulations/";
+    public static String prefix = "./";
 
+    /* Batch Simulation deferred
     public static class Constraints {
         public double min_density = 1100;
         public double max_density = 1200;
@@ -53,13 +54,6 @@ public class BatchSupervisor {
 
     public static ExecutorService executor = Executors.newFixedThreadPool(8);
 
-    /** Multithreaded simulation workload
-     * Deprecated use singlerun()
-     *
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws IOException
-     */
     public static void multirun() throws InterruptedException, ExecutionException, IOException {
         String[] cores = {"alpha", "beta", "delta", "epsilon", "gamma", "rho", "theta", "phi"};
         int latch = 0;
@@ -148,7 +142,9 @@ public class BatchSupervisor {
         return rets;
     }
 
-    public static Analyzer simulate(Rocket rocket, boolean flightrecording, double resolution, boolean outputonly) {
+     */
+
+    public static void simulate(Rocket rocket, boolean flightrecording, double resolution, boolean outputonly) {
         Analyzer analyzer = new Analyzer();
         analyzer.rocket_name = rocket.name;
 
@@ -223,11 +219,10 @@ public class BatchSupervisor {
         }
 
         if(!outputonly) write(analyzer.report(), prefix+rocket.name+"/"+rocket.name+".analysis.txt");
-        return analyzer;
     }
 
-    public static Analyzer simulate(Rocket rocket, boolean flightrecording) {
-        return simulate(rocket, flightrecording, default_resolution, true);
+    public static void simulate(Rocket rocket, boolean flightrecording) {
+        simulate(rocket, flightrecording, default_resolution, false);
     }
 
     private static void write(Vector<String> data, String filename) {

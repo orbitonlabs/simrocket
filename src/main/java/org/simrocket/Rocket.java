@@ -16,12 +16,11 @@ public class Rocket {
 
     public double water_column;
 
-    public double A1 = Math.PI * (0.015875 * 0.015875);
-    // public double A1 = Math.PI * (0.011 * 0.011);
+    public double A1;
 
-    public double A2 =  Math.PI * (radius * radius);
+    public double A2;
 
-    public double dA = A2 - A1;
+    public double dA;
 
     public double invgamma_const = 1/1.4d;
 
@@ -47,15 +46,21 @@ public class Rocket {
 
     double damping_factor;
 
-    double drag = 0.5 * 1.293 * 0.5 * Math.PI * radius * radius;
+    double drag;
 
-    double parachute_drag = - 0.5 * 1.293 * 0.5 * Math.PI * 1 * 1;
+    double parachute_drag;
 
-    public Rocket(String n, double density, double pressure, double shell_mass, double height, double packing, double damping) {
+    public Rocket(String n, double rradius, double nozzle_radius, double parachute_radius, double density, double pressure, double shell_mass, double height, double packing, double damping) {
         name = n;
         first_stage_height = height;
         packing_factor = packing;
         damping_factor = damping;
+        this.radius = rradius;
+        A1 = Math.PI * (nozzle_radius * nozzle_radius);
+        A2 =  Math.PI * (radius * radius);
+        dA = A2 - A1;
+        drag = 0.5 * 1.293 * 0.5 * Math.PI * radius * radius;
+        parachute_drag = - 0.5 * 1.293 * 0.5 * Math.PI * parachute_radius * parachute_radius;
         water_column = packing_factor * first_stage_height * Math.PI * radius * radius;
         p_chamber = pressure * Math.pow(10, 5);
         water_column_height = ( water_column / dA ) * (1 - Math.pow((p_in /p_chamber), invgamma_const));
